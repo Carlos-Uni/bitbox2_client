@@ -1,50 +1,54 @@
-import ItemElement from "./ItemElement";
-import React, { useState } from "react";
+import React, { Component, useState } from "react";
+import ItemService from "../services/ItemService";
 
-const items = [
-    {
-        "id":1,
-        "nombre":"Teléfono",
-        "precio":65,
-        "fecha":"2020-3-23",
-        "estado":"Activo"
-    },
-    {
-        "id":2,
-        "nombre":"Juego",
-        "precio":20,
-        "fecha":"2010-8-13",
-        "estado":"Activo"
-    },
-    {
-        "id":3,
-        "nombre":"Tenedor",
-        "precio":40,
-        "fecha":"2015-9-05",
-        "estado":"Inactivo"
-    },
-];
+class ItemTable extends Component {
+    constructor(props) {
+        super(props)
 
-export default function ItemTable(){
-
-    const [prueba, setPrueba] = useState(0);
-    
-    function sumHandle() {
-        setPrueba(prueba + 1);
+        this.state = {
+                items: []
+        }
     }
 
-    return(
+    componentDidMount() {
+        ItemService.getItems().then((res) => {
+            this.setState({ items: res.data});
+        });
+    }
 
-        <div className="item-list">
-            <table>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Precio</th>
-                </tr>
-                    {items.map((item) => <ItemElement item={item} />)}
-            </table>
-            <button onClick={sumHandle}>Sumar</button>
-            <h1>{prueba}</h1>
-        </div>
-    );
+    render() {
+        return (
+            <div>
+                <h2 className="">Items List</h2>
+                <div className="">
+                    <table className="">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th>Creation Date</th>
+                                <th>Creator</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                this.state.items.map(item =>
+                                    <tr key={item.idItem}>
+                                        <td>{item.description}</td>
+                                        <td>{item.price}</td>
+                                        <td>{item.creationDate}</td>
+                                        <td>{item.creator.userName}</td>
+                                    </tr>
+                                    )
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        )
+    }
 }
+
+export default ItemTable
