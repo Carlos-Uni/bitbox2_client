@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import ItemService from "../services/ItemService";
 
 class ItemTable extends Component {
@@ -8,6 +8,8 @@ class ItemTable extends Component {
         this.state = {
                 items: []
         }
+
+        this.addItem = this.addItem.bind(this);
     }
 
     componentDidMount() {
@@ -16,10 +18,17 @@ class ItemTable extends Component {
         });
     }
 
+    addItem(){
+        this.props.history.push('/add-item');
+    }
+
     render() {
         return (
             <div>
                 <h2 className="">Items List</h2>
+                <div className="">
+                    <button className="" onClick={this.addItem}>Add Item</button>
+                </div>
                 <div className="">
                     <table className="">
                         <thead>
@@ -27,7 +36,7 @@ class ItemTable extends Component {
                                 <th>Description</th>
                                 <th>Price</th>
                                 <th>Creation Date</th>
-                                <th>Creator</th>
+                                {/* <th>Creator</th> */}
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -38,7 +47,7 @@ class ItemTable extends Component {
                                         <td>{item.description}</td>
                                         <td>{item.price}</td>
                                         <td>{item.creationDate}</td>
-                                        <td>{item.creator.userName}</td>
+                                        {/* <td>{item.creator.userName}</td> */}
                                     </tr>
                                     )
                             }
