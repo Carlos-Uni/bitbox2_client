@@ -1,25 +1,25 @@
 import React, { Component } from "react";
 import ItemService from "../services/ItemService";
 
-class CreateItemForm extends Component {
+class UpdateItemForm extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            itemCode: '',
+            itemCode: this.props.match.params.itemCode,
             price: '',
-            description: ''
+            description: '',
+            state: '',
+            suppliers: [],
+            discounts: [],
+            creationDate: '',
+            discontinuedReason: ''
         }
 
-        this.changeItemCodeHandler = this.changeItemCodeHandler.bind(this);
         this.changeDescriptionHandler = this.changeDescriptionHandler.bind(this);
         this.changePriceHandler = this.changePriceHandler.bind(this);
-        this.createItem = this.createItem.bind(this);
+        this.createItem = this.updateItem.bind(this);
         this.cancelItem = this.cancelItem.bind(this);
-    }
-
-    changeItemCodeHandler = (event) => {
-        this.setState({ itemCode: event.target.value });
     }
 
     changeDescriptionHandler = (event) => {
@@ -30,19 +30,35 @@ class CreateItemForm extends Component {
         this.setState({ price: event.target.value });
     }
 
-    createItem = (event) => {
+    componentDidMount() {
+        ItemService.getItemByItemCode(this.state.itemCode).then((res) => {
+            let item = res.data;
+            this.setState({
+                description: item.description,
+                price: item.price,
+                state: item.state,
+                suppliers: item.suppliers,
+                discounts: item.discounts,
+                creationDate: item.creationDate,
+                discontinuedReason: item.discontinuedReason
+            });
+        });
+    }
+
+    updateItem = (event) => {
         event.preventDefault();
-        const currentDate = new Date()
-        const date = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
         let item = {
-            itemCode: this.state.itemCode,
+            itemCode: this.props.match.params.itemCode,
             description: this.state.description,
             price: this.state.price,
-            creationDate: date,
-            state: 'ACTIVE'
+            state: this.state.state,
+            suppliers: this.state.suppliers,
+            discounts: this.state.discounts,
+            creationDate: this.state.creationDate,
+            discontinuedReason: this.state.discontinuedReason
         };
-
-        ItemService.createItem(item).then(res => {
+        console.log('item => ' + JSON.stringify(item));
+        ItemService.updateItem(item, this.state.itemCode).then(res => {
             this.props.history.push('/items');
         });
     }
@@ -56,14 +72,9 @@ class CreateItemForm extends Component {
             <div className="">
                 <div className="">
                     <div className="">
-                        <h3 className="">Add Item</h3>
+                        <h3 className="">Update Item</h3>
                         <div className="">
                             <form>
-                                <div className="">
-                                    <label>Item Code: </label>
-                                    <input placeholder="Item Code" name="itemCode" className="" value={this.state.itemCode}
-                                        onChange={this.changeItemCodeHandler} />
-                                </div>
                                 <div className="">
                                     <label>Description: </label>
                                     <textarea placeholder="Description" name="description" className="" value={this.state.description}
@@ -75,7 +86,7 @@ class CreateItemForm extends Component {
                                         onChange={this.changePriceHandler} />
                                 </div>
                                 <button className="" onClick={this.cancelItem}>Cancel</button>
-                                <button className="" onClick={this.createItem}>Add</button>
+                                <button className="" onClick={this.updateItem}>Update</button>
                             </form>
                         </div>
                     </div>
@@ -85,4 +96,4 @@ class CreateItemForm extends Component {
     }
 }
 
-export default CreateItemForm
+export default UpdateItemForm

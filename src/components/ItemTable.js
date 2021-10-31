@@ -10,6 +10,7 @@ class ItemTable extends Component {
         }
 
         this.addItem = this.addItem.bind(this);
+        this.editItem = this.editItem.bind(this);
     }
 
     componentDidMount() {
@@ -20,6 +21,10 @@ class ItemTable extends Component {
 
     addItem(){
         this.props.history.push('/add-item');
+    }
+
+    editItem(code){
+        this.props.history.push(`/update-item/${code}`);
     }
 
     render() {
@@ -48,6 +53,9 @@ class ItemTable extends Component {
                                         <td>{item.price}</td>
                                         <td>{item.creationDate}</td>
                                         {/* <td>{item.creator.userName}</td> */}
+                                        <td>
+                                            <button onClick={() => this.editItem(item.itemCode)} className="">Update</button>
+                                        </td>
                                     </tr>
                                     )
                             }

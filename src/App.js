@@ -6,6 +6,7 @@ import CreateUserForm from './components/CreateUserForm';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import CreateItemForm from './components/CreateItemForm';
+import UpdateItemForm from './components/UpdateItemForm';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/" exact component={Login} />
             <Route path="/items" component={ItemTable} />
             <Route path="/add-item" component={CreateItemForm} />
+            <Route path="/update-item/:itemCode" component={UpdateItemForm} />
           </Switch>
         </div>
         <Footer />
