@@ -1,20 +1,21 @@
 import '../css/modal.css'
 
-const Modal = ({ show, handleClose, items }) => {
+const Modal = ({ show, item }) => {
     const showHideClassName = show ? "modal display-block" : "modal display-none";
-
+    console.log(show)
+    console.log(item)
     return (
         <div className={showHideClassName}>
-            <section className="modal-main">
-                <ul key={items.id}>
-                    <li>Nombre: {items.nombre}</li>
-                    <li>Precio: {items.precio}</li>
-                    <li>Fecha: {items.fecha}</li>
+            {/* <section className="modal-main">
+                <ul key={item.itemCode}>
+                    <li>Description: {item.description}</li>
+                    <li>Price: {item.price}</li>
+                    <li>Creation Date: {item.creationDate}</li>
                 </ul>
-                <button type="button" onClick={handleClose}>
+                <button type="button">
                     Close
                 </button>
-            </section>
+            </section> */}
         </div>
     );
 };
