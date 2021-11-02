@@ -7,6 +7,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import CreateItemForm from './components/CreateItemForm';
 import ItemDetails from './components/ItemDetails';
+import DiscontinuedItemForm from './components/DiscontinuedItemForm';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/items" component={ItemTable} />
             <Route path="/add-item/:itemCode" component={CreateItemForm} />
             <Route path="/itemDetails/:itemCode" component={ItemDetails} />
+            <Route path="/discontinued-item/:itemCode" component={DiscontinuedItemForm} />
             {/* <Route path="/update-item/:itemCode" component={UpdateItemForm} /> */}
           </Switch>
         </div>

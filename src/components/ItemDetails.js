@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ItemService from "../services/ItemService";
+import SupplierOrDiscountList from "./SupplierOrDiscountList";
 
 class ItemDetails extends Component {
     constructor(props) {
@@ -23,6 +24,7 @@ class ItemDetails extends Component {
         ItemService.getItemByItemCode(this.state.itemCode).then((res) => {
             let item = res.data;
             this.setState({
+                itemCode: item.itemCode,
                 description: item.description,
                 price: item.price,
                 state: item.state,
@@ -45,26 +47,34 @@ class ItemDetails extends Component {
                     <div className="">
                         <h3 className="">Item Details</h3>
                         <div className="">
-                            <form>
-                                <div className="">
-                                    <label>Description: </label>
-                                    <textarea placeholder="Description" name="description" className="" value={this.state.description}/>
-                                </div>
-                                <div className="">
-                                    <label>Price: </label>
-                                    <input placeholder="Price" name="price" className="" value={this.state.price} />
+                            <div className="">
+                                <label>Item Code: </label>
+                                <input placeholder="Description" name="itemCode" className="" value={this.state.itemCode} />
+                            </div>
+                            <div className="">
+                                <label>Description: </label>
+                                <textarea placeholder="Description" name="description" className="" value={this.state.description} />
+                            </div>
+                            <div className="">
+                                <label>Price: </label>
+                                <input placeholder="Price" name="price" className="" value={this.state.price} />
 
-                                </div>
-                                <div className="">
-                                    <label>Creation Date: </label>
-                                    <input placeholder="Creation Date" name="creationDate" className="" value={this.state.creationDate} />
-                                </div>
-                                <div className="">
-                                    <label>State</label>
-                                    <input placeholder="State" name="state" className="" value={this.state.state} />
-                                </div>
-                                <button className="" onClick={this.cancelItem}>Back</button>
-                            </form>
+                            </div>
+                            <div className="">
+                                <label>Creation Date: </label>
+                                <input placeholder="Creation Date" name="creationDate" className="" value={this.state.creationDate} />
+                            </div>
+                            <div className="">
+                                <label>State</label>
+                                <input placeholder="State" name="state" className="" value={this.state.state} />
+                            </div>
+                            {this.state.discontinuedReason ? <div className="">
+                                <label>Discontinued Reason</label>
+                                <input placeholder="Discontinued Reason" name="state" className="" value={this.state.discontinuedReason} />
+                            </div> : ''}
+                            {this.state.suppliers.length > 0 && <SupplierOrDiscountList title="Selected suppliers:" data={this.state.suppliers} />}
+                            {this.state.discounts.length > 0 && <SupplierOrDiscountList title="Selected discounts:" data={this.state.discounts} />}
+                            <button className="" onClick={this.cancelItem}>Back</button>
                         </div>
                     </div>
                 </div>

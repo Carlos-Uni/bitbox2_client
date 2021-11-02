@@ -1,21 +1,21 @@
 import '../css/modal.css'
+import ItemService from '../services/ItemService';
 
-const Modal = ({ show, item }) => {
+const Modal = ({ show, item, handleCheck }) => {
     const showHideClassName = show ? "modal display-block" : "modal display-none";
-    console.log(show)
+
     console.log(item)
+
     return (
         <div className={showHideClassName}>
-            {/* <section className="modal-main">
-                <ul key={item.itemCode}>
-                    <li>Description: {item.description}</li>
-                    <li>Price: {item.price}</li>
-                    <li>Creation Date: {item.creationDate}</li>
-                </ul>
-                <button type="button">
-                    Close
-                </button>
-            </section> */}
+            <section className="modal-main">
+                <div className="">
+                    <label>Specify a reason for the deactivation: </label>
+                    <textarea placeholder="The item is very old....." name="reason" className="" />
+                </div>
+                <button type="button" onClick={handleCheck}>Close</button>
+                
+            </section>
         </div>
     );
 };
