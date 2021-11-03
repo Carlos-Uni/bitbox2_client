@@ -9,14 +9,12 @@ class Header extends Component {
         }
     }
 
-    
-
     render() {
         return (
             <div>
                 <header>
-                    <nav className="">
-                        <div><a href="https://github.com/Carlos-Uni/TFT_Project" className="">Store Management App</a></div>
+                    <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+                        <div><a href="https://github.com/Carlos-Uni/TFT_Project" className="navbar-brand">Store Management App</a></div>
                     </nav>
                 </header>
             </div>

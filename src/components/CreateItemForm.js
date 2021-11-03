@@ -99,31 +99,31 @@ class CreateItemForm extends Component {
             }
 
             if (!flag) {
-                // const currentDate = new Date();
-                // let day = currentDate.getDate();
-                // let month = currentDate.getMonth() + 1;
+                const currentDate = new Date();
+                let day = currentDate.getDate();
+                let month = currentDate.getMonth() + 1;
 
-                // if (day < 10 && month < 10) {
-                //     day = '0' + day;
-                //     month = '0' + month;
-                // } else if (day < 10) {
-                //     day = '0' + day;
-                // } else if (month < 10) {
-                //     month = '0' + month;
-                // }
+                if (day < 10 && month < 10) {
+                    day = '0' + day;
+                    month = '0' + month;
+                } else if (day < 10) {
+                    day = '0' + day;
+                } else if (month < 10) {
+                    month = '0' + month;
+                }
 
-                // const date = `${currentDate.getFullYear()}-${day}-${month}`;
-                // let item = {
-                //     itemCode: this.state.itemCode,
-                //     description: this.state.description,
-                //     price: this.state.price,
-                //     creationDate: date,
-                //     state: 'ACTIVE'
-                // };
-                // console.log('item => ' + JSON.stringify(item));
-                // ItemService.createItem(item).then(res => {
-                //     this.props.history.push('/items');
-                // });
+                const date = `${currentDate.getFullYear()}-${day}-${month}`;
+                let item = {
+                    itemCode: this.state.itemCode,
+                    description: this.state.description,
+                    price: this.state.price,
+                    creationDate: date,
+                    state: 'ACTIVE'
+                };
+                console.log('item => ' + JSON.stringify(item));
+                ItemService.createItem(item).then(res => {
+                    this.props.history.push('/items');
+                });
             }
         } else {
             let item = {
@@ -149,9 +149,9 @@ class CreateItemForm extends Component {
 
     changeTitle() {
         if (this.state.updateItemCode === 'add') {
-            return <h3 className="">Add Item</h3>
+            return <h3 className="text-center">Add Item</h3>
         } else {
-            return <h3 className="">Update Item</h3>
+            return <h3 className="text-center">Update Item</h3>
         }
     }
 
@@ -196,38 +196,38 @@ class CreateItemForm extends Component {
 
     render() {
         return (
-            <div className="">
-                <div className="">
-                    <div className="">
+            <div className="container">
+                <div className="row">
+                    <div className="card col-md-6 offset-md-3 offset-md-3">
                         {this.changeTitle()}
-                        <div className="">
+                        <div className="card-body">
                             <form>
-                                {this.state.updateItemCode === 'add' ? <div className="">
+                                {this.state.updateItemCode === 'add' ? <div className="form-group">
                                     <label>Item Code: </label>
-                                    <input type="number" placeholder="Item Code" name="itemCode" className="" value={this.state.itemCode}
+                                    <input type="number" placeholder="Item Code" name="itemCode" className="form-control" value={this.state.itemCode}
                                         onChange={this.changeItemCodeHandler} required />
                                 </div> : ""}
                                 <span id="errorItemCode"style={{ color: "red" }}></span>
-                                <div className="">
+                                <div className="form-group">
                                     <label>Description: </label>
-                                    <textarea placeholder="Description" name="description" className="" value={this.state.description}
+                                    <textarea placeholder="Description" name="description" className="form-control" value={this.state.description}
                                         onChange={this.changeDescriptionHandler} />
                                 </div>
                                 <span id="errorDescription" style={{ color: "red" }}></span>
-                                <div className="">
+                                <div className="form-group">
                                     <label>Price: </label>
-                                    <input type="number" placeholder="Price" name="price" className="" value={this.state.price}
+                                    <input type="number" placeholder="Price" name="price" className="form-control" value={this.state.price}
                                         onChange={this.changePriceHandler} />
                                 </div>
                                 {this.state.updateItemCode === 'add' ? '' :
-                                    <div className="">
+                                    <div className="form-group">
                                         <label>Creation Date: </label>
-                                        <input type="date" name="creationDate" className="" value={this.state.creationDate}
+                                        <input type="date" name="creationDate" className="form-control" value={this.state.creationDate}
                                             onChange={this.changeCreationDayHandler} />
                                     </div>
                                 }
                                 {this.state.updateItemCode === 'add' ? '' :
-                                    <div className="">
+                                    <div className="form-group">
                                         <label>Supplier: </label>
                                         <select name="supplier" onChange={this.handleSuppliers}>
                                             {
@@ -242,7 +242,7 @@ class CreateItemForm extends Component {
                                 }
                                 {this.state.updateItemCode === 'add' ? '' : <SupplierOrDiscountList title="Selected suppliers:" data={this.state.suppliers} cleanList={this.cleanSupplierList} />}
                                 {this.state.updateItemCode === 'add' ? '' :
-                                    <div className="">
+                                    <div className="form-group">
                                         <label>Discount: </label>
                                         <select name="discount" onChange={this.handleDiscounts}>
                                             {
@@ -256,8 +256,8 @@ class CreateItemForm extends Component {
                                     </div>
                                 }
                                 {this.state.updateItemCode === 'add' ? '' : <SupplierOrDiscountList title="Selected discounts:" data={this.state.discounts} cleanList={this.cleanDiscountList} />}
-                                <button className="" onClick={this.cancelItem}>Cancel</button>
-                                <button className="" onClick={this.createOrUpdateItem}>Save</button>
+                                <button className="btn btn-danger" onClick={this.cancelItem}>Cancel</button>
+                                <button className="btn btn-success" onClick={this.createOrUpdateItem}>Save</button>
                             </form>
                         </div>
                     </div>

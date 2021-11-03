@@ -8,14 +8,11 @@ class Footer extends Component {
                 
         }
     }
-
-    
-
     render() {
         return (
             <div>
                 <footer className="footer">
-                    <span className="">All rights reserved 2021 @Carlos-Uni</span>
+                    <span className="text-muted">All rights reserved 2021 @Carlos-Uni</span>
                 </footer>
             </div>
         )

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import ItemService from "../services/ItemService";
-import Modal from "./Modal";
 
 class ItemTable extends Component {
     constructor(props) {
@@ -49,19 +48,19 @@ class ItemTable extends Component {
     render() {
         return (
             <div>
-                <h2 className="">Items List</h2>
-                <div className="">
-                    <button className="" onClick={this.addItem}>Add Item</button>
+                <h2 className="text-center">Items List</h2>
+                <div className="row">
+                    <button className="btn btn-primary" onClick={this.addItem}>Add Item</button>
                 </div>
-                <div className="">
+                <div className="row">
                     <h5>Show the items</h5>
                     <input type="radio" value="ACTIVE" selected={this.state.showItem} checked={this.state.showItem === "ACTIVE"} onChange={this.radioButtonHandler} />
                     <label>Active Item</label>
                     <input type="radio" value="DISCONTINUED" selected={this.state.showItem} checked={this.state.showItem === "DISCONTINUED"} onChange={this.radioButtonHandler} />
                     <label>Discontinued Item</label>
                 </div>
-                <div className="">
-                    <table className="">
+                <div className="row">
+                    <table className="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>Code</th>
@@ -83,10 +82,10 @@ class ItemTable extends Component {
                                             <td>{item.creationDate}</td>
                                             <td>{item.state}</td>
                                             <td>
-                                                <button onClick={() => this.viewItem(item.itemCode)} className="">Details</button>
-                                                <button onClick={() => this.updateItem(item.itemCode)} className="">Update</button>
+                                                <button onClick={() => this.viewItem(item.itemCode)} className="btn btn-info">Details</button>
+                                                <button onClick={() => this.updateItem(item.itemCode)} className="btn btn-info">Update</button>
                                                 {item.state === 'ACTIVE' ?
-                                                    <button onClick={() => this.discontinuedItem(item.itemCode)} className="">Discontinued</button>
+                                                    <button onClick={() => this.discontinuedItem(item.itemCode)} className="btn btn-danger">Discontinued</button>
                                                     : ''
                                                 }
                                             </td>
