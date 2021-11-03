@@ -81,32 +81,50 @@ class CreateItemForm extends Component {
 
     createOrUpdateItem = (event) => {
         event.preventDefault();
-        console.log(this.state.updateItemCode)
+        let flag = false;
+
         if (this.state.updateItemCode === 'add') {
-            const currentDate = new Date();
-            let day = currentDate.getDate();
-            let month = currentDate.getMonth() + 1;
-            if (day < 10 && month < 10) {
-                day = '0' + day;
-                month = '0' + month;
-            } else if (day < 10) {
-                day = '0' + day;
-            } else if (month < 10) {
-                month = '0' + month;
+
+            if (!this.state.itemCode.trim()) {
+                flag = true
+                document.getElementById("errorItemCode").innerHTML = "Cannot be empty";
+            } else {
+                document.getElementById("errorItemCode").innerHTML = "";
+            }
+            if (!this.state.description.trim()) {
+                flag = true
+                document.getElementById("errorDescription").innerHTML = "Cannot be empty";
+            } else {
+                document.getElementById("errorDescription").innerHTML = "";
             }
 
-            const date = `${currentDate.getFullYear()}-${day}-${month}`;
-            let item = {
-                itemCode: this.state.itemCode,
-                description: this.state.description,
-                price: this.state.price,
-                creationDate: date,
-                state: 'ACTIVE'
-            };
-            console.log('item => ' + JSON.stringify(item));
-            ItemService.createItem(item).then(res => {
-                this.props.history.push('/items');
-            });
+            if (!flag) {
+                // const currentDate = new Date();
+                // let day = currentDate.getDate();
+                // let month = currentDate.getMonth() + 1;
+
+                // if (day < 10 && month < 10) {
+                //     day = '0' + day;
+                //     month = '0' + month;
+                // } else if (day < 10) {
+                //     day = '0' + day;
+                // } else if (month < 10) {
+                //     month = '0' + month;
+                // }
+
+                // const date = `${currentDate.getFullYear()}-${day}-${month}`;
+                // let item = {
+                //     itemCode: this.state.itemCode,
+                //     description: this.state.description,
+                //     price: this.state.price,
+                //     creationDate: date,
+                //     state: 'ACTIVE'
+                // };
+                // console.log('item => ' + JSON.stringify(item));
+                // ItemService.createItem(item).then(res => {
+                //     this.props.history.push('/items');
+                // });
+            }
         } else {
             let item = {
                 itemCode: this.state.itemCode,
@@ -123,7 +141,6 @@ class CreateItemForm extends Component {
                 this.props.history.push('/items');
             });
         }
-
     }
 
     cancelItem() {
@@ -141,18 +158,27 @@ class CreateItemForm extends Component {
     handleSuppliers(event) {
         SuppliersService.getSupplierBySupplierCode(event.target.value).then((res) => {
             let supplier = res.data;
-            this.setState({
-                suppliers: [...this.state.suppliers, supplier],
-            });
+            if (this.state.suppliers.filter(e => e.supplierCode === supplier.supplierCode).length > 0) {
+                return;
+            } else {
+                this.setState({
+                    suppliers: [...this.state.suppliers, supplier]
+                });
+            }
         })
+
     }
 
     handleDiscounts(event) {
         DiscountService.getDiscountByDiscountCode(event.target.value).then((res) => {
             let discount = res.data;
-            this.setState({
-                discounts: [...this.state.discounts, discount]
-            });
+            if (this.state.discounts.filter(e => e.discountCode === discount.discountCode).length > 0) {
+                return;
+            } else {
+                this.setState({
+                    discounts: [...this.state.discounts, discount]
+                });
+            }
         })
     }
 
@@ -178,51 +204,58 @@ class CreateItemForm extends Component {
                             <form>
                                 {this.state.updateItemCode === 'add' ? <div className="">
                                     <label>Item Code: </label>
-                                    <input placeholder="Item Code" name="itemCode" className="" value={this.state.itemCode}
-                                        onChange={this.changeItemCodeHandler} />
+                                    <input type="number" placeholder="Item Code" name="itemCode" className="" value={this.state.itemCode}
+                                        onChange={this.changeItemCodeHandler} required />
                                 </div> : ""}
-                                
+                                <span id="errorItemCode"style={{ color: "red" }}></span>
                                 <div className="">
                                     <label>Description: </label>
                                     <textarea placeholder="Description" name="description" className="" value={this.state.description}
                                         onChange={this.changeDescriptionHandler} />
                                 </div>
+                                <span id="errorDescription" style={{ color: "red" }}></span>
                                 <div className="">
                                     <label>Price: </label>
-                                    <input placeholder="Price" name="price" className="" value={this.state.price}
+                                    <input type="number" placeholder="Price" name="price" className="" value={this.state.price}
                                         onChange={this.changePriceHandler} />
                                 </div>
-                                <div className="">
-                                    <label>Creation Date: </label>
-                                    <input placeholder="Creation Date" name="creationDate" className="" value={this.state.creationDate}
-                                        onChange={this.changeCreationDayHandler} />
-                                </div>
-                                <div className="">
-                                    <label>Supplier: </label>
-                                    <select name="supplier" onChange={this.handleSuppliers}>
-                                        {
-                                            this.state.supplierList.map(supplier =>
-                                                <optgroup label="Item suppliers">
-                                                    <option value={supplier.supplierCode}>{supplier.name}</option>
-                                                </optgroup>
-                                            )
-                                        }
-                                    </select>
-                                </div>
-                                {this.state.suppliers.length > 0 && <SupplierOrDiscountList title="Selected suppliers:" data={this.state.suppliers} cleanList={this.cleanSupplierList} />}
-                                <div className="">
-                                    <label>Discount: </label>
-                                    <select name="discount" onChange={this.handleDiscounts}>
-                                        {
-                                            this.state.discountList.map(discount =>
-                                                <optgroup label="Item discount">
-                                                    <option value={discount.discountCode}>{discount.reducedPrice}</option>
-                                                </optgroup>
-                                            )
-                                        }
-                                    </select>
-                                </div>
-                                {this.state.discounts.length > 0 && <SupplierOrDiscountList title="Selected discounts:" data={this.state.discounts} cleanList={this.cleanDiscountList} />}
+                                {this.state.updateItemCode === 'add' ? '' :
+                                    <div className="">
+                                        <label>Creation Date: </label>
+                                        <input type="date" name="creationDate" className="" value={this.state.creationDate}
+                                            onChange={this.changeCreationDayHandler} />
+                                    </div>
+                                }
+                                {this.state.updateItemCode === 'add' ? '' :
+                                    <div className="">
+                                        <label>Supplier: </label>
+                                        <select name="supplier" onChange={this.handleSuppliers}>
+                                            {
+                                                this.state.supplierList.map(supplier =>
+                                                    <optgroup label="Item suppliers">
+                                                        <option value={supplier.supplierCode}>{supplier.name}</option>
+                                                    </optgroup>
+                                                )
+                                            }
+                                        </select>
+                                    </div>
+                                }
+                                {this.state.updateItemCode === 'add' ? '' : <SupplierOrDiscountList title="Selected suppliers:" data={this.state.suppliers} cleanList={this.cleanSupplierList} />}
+                                {this.state.updateItemCode === 'add' ? '' :
+                                    <div className="">
+                                        <label>Discount: </label>
+                                        <select name="discount" onChange={this.handleDiscounts}>
+                                            {
+                                                this.state.discountList.map(discount =>
+                                                    <optgroup label="Item discount">
+                                                        <option value={discount.discountCode}>{discount.reducedPrice}</option>
+                                                    </optgroup>
+                                                )
+                                            }
+                                        </select>
+                                    </div>
+                                }
+                                {this.state.updateItemCode === 'add' ? '' : <SupplierOrDiscountList title="Selected discounts:" data={this.state.discounts} cleanList={this.cleanDiscountList} />}
                                 <button className="" onClick={this.cancelItem}>Cancel</button>
                                 <button className="" onClick={this.createOrUpdateItem}>Save</button>
                             </form>

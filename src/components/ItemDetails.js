@@ -16,7 +16,6 @@ class ItemDetails extends Component {
             creationDate: '',
             discontinuedReason: ''
         }
-
         this.cancelItem = this.cancelItem.bind(this);
     }
 
@@ -47,34 +46,31 @@ class ItemDetails extends Component {
                     <div className="">
                         <h3 className="">Item Details</h3>
                         <div className="">
-                            <div className="">
-                                <label>Item Code: </label>
-                                <input placeholder="Description" name="itemCode" className="" value={this.state.itemCode} />
-                            </div>
-                            <div className="">
-                                <label>Description: </label>
-                                <textarea placeholder="Description" name="description" className="" value={this.state.description} />
-                            </div>
-                            <div className="">
-                                <label>Price: </label>
-                                <input placeholder="Price" name="price" className="" value={this.state.price} />
-
-                            </div>
-                            <div className="">
-                                <label>Creation Date: </label>
-                                <input placeholder="Creation Date" name="creationDate" className="" value={this.state.creationDate} />
-                            </div>
-                            <div className="">
-                                <label>State</label>
-                                <input placeholder="State" name="state" className="" value={this.state.state} />
-                            </div>
-                            {this.state.discontinuedReason ? <div className="">
-                                <label>Discontinued Reason</label>
-                                <input placeholder="Discontinued Reason" name="state" className="" value={this.state.discontinuedReason} />
-                            </div> : ''}
-                            {this.state.suppliers.length > 0 && <SupplierOrDiscountList title="Selected suppliers:" data={this.state.suppliers} />}
-                            {this.state.discounts.length > 0 && <SupplierOrDiscountList title="Selected discounts:" data={this.state.discounts} />}
-                            <button className="" onClick={this.cancelItem}>Back</button>
+                            <ul>
+                                <li>
+                                    Item Code: {this.state.itemCode}
+                                </li>
+                                <li>
+                                    Description: {this.state.description}
+                                </li>
+                                <li>
+                                    Price: {this.state.price}€
+                                </li>
+                                <li>
+                                    Creation Date: {this.state.creationDate}
+                                </li>
+                                <li>
+                                    State: {this.state.state}
+                                </li>
+                                {this.state.discontinuedReason ?
+                                    <li>
+                                        Discontinued Reason: {this.state.discontinuedReason}
+                                    </li>
+                                : ''}
+                                {this.state.suppliers.length > 0 && <SupplierOrDiscountList title="Selected suppliers:" data={this.state.suppliers} />}
+                                {this.state.discounts.length > 0 && <SupplierOrDiscountList title="Selected discounts:" data={this.state.discounts} />}
+                                <button className="" onClick={this.cancelItem}>Back</button>
+                            </ul>
                         </div>
                     </div>
                 </div>

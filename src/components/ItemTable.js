@@ -8,16 +8,13 @@ class ItemTable extends Component {
 
         this.state = {
             items: [],
-            show: false,
-            updateItemCode: '',
-            showItem: ''
+            showItem: 'ACTIVE'
         }
 
         this.viewItem = this.viewItem.bind(this);
         this.addItem = this.addItem.bind(this);
         this.updateItem = this.updateItem.bind(this);
-        // this.handleCheck = this.handleCheck.bind(this);
-        // this.discontinuedItemHandler = this.discontinuedItemHandler(this);
+        this.radioButtonHandler = this.radioButtonHandler.bind(this);
     }
 
     componentDidMount() {
@@ -42,31 +39,26 @@ class ItemTable extends Component {
         this.props.history.push(`/discontinued-item/${code}`);
     }
 
-    // handleCheck(event) {
-    //     this.setState({
-    //         show: !this.state.show
-    //     });
-
-    //     console.log(event.target.value)
-
-
-    //     //ItemService.getItemByItemCode(event.target.value.itemCode)
-    // };
+    radioButtonHandler(event) {
+        this.setState({
+            showItem: event.target.value
+        })
+    }
 
 
     render() {
         return (
             <div>
-                {/* <Modal show={this.state.show} items={this.state.itemDetails}/> */}
                 <h2 className="">Items List</h2>
                 <div className="">
                     <button className="" onClick={this.addItem}>Add Item</button>
                 </div>
                 <div className="">
-                    <input type="radio" value="ACTIVE" />
-                    <label for="html">Active Item</label>
-                    <input type="radio" value="DISCONTINUED" />
-                    <label for="css">Discontinued Item</label>
+                    <h5>Show the items</h5>
+                    <input type="radio" value="ACTIVE" selected={this.state.showItem} checked={this.state.showItem === "ACTIVE"} onChange={this.radioButtonHandler} />
+                    <label>Active Item</label>
+                    <input type="radio" value="DISCONTINUED" selected={this.state.showItem} checked={this.state.showItem === "DISCONTINUED"} onChange={this.radioButtonHandler} />
+                    <label>Discontinued Item</label>
                 </div>
                 <div className="">
                     <table className="">
@@ -76,7 +68,6 @@ class ItemTable extends Component {
                                 <th>Description</th>
                                 <th>Price</th>
                                 <th>Creation Date</th>
-                                {/* <th>Creator</th> */}
                                 <th>Item State</th>
                                 <th>Actions</th>
                             </tr>
@@ -84,22 +75,20 @@ class ItemTable extends Component {
                         <tbody>
                             {
                                 this.state.items.map(item =>
-                                    item.state === 'ACTIVE' ?
+                                    item.state === this.state.showItem ?
                                         <tr key={item.itemCode}>
-                                            {/* <td>
-                                            <input type="checkbox" onChange={this.handleCheck} value={item} 
-                                            checked={item.state === 'ACTIVE'? true : false}/>
-                                        </td> */}
                                             <td>{item.itemCode}</td>
                                             <td>{item.description}</td>
                                             <td>{item.price}</td>
                                             <td>{item.creationDate}</td>
                                             <td>{item.state}</td>
-                                            {/* <td>{item.creator.userName}</td> */}
                                             <td>
                                                 <button onClick={() => this.viewItem(item.itemCode)} className="">Details</button>
                                                 <button onClick={() => this.updateItem(item.itemCode)} className="">Update</button>
-                                                <button onClick={() => this.discontinuedItem(item.itemCode)} className="">Discontinued</button>
+                                                {item.state === 'ACTIVE' ?
+                                                    <button onClick={() => this.discontinuedItem(item.itemCode)} className="">Discontinued</button>
+                                                    : ''
+                                                }
                                             </td>
                                         </tr>
                                         : ''
@@ -108,7 +97,6 @@ class ItemTable extends Component {
                         </tbody>
                     </table>
                 </div>
-                {/* <Modal show={this.state.show} handleCheck={this.handleCheck} discontinuedItemHandler={this.discontinuedItemHandler}/> */}
             </div >
         )
     }
