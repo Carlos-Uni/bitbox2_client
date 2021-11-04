@@ -82,6 +82,7 @@ class CreateItemForm extends Component {
     createOrUpdateItem = (event) => {
         event.preventDefault();
         let flag = false;
+        console.log(this.state.discontinuedReason)
 
         if (this.state.updateItemCode === 'add') {
 
@@ -91,6 +92,7 @@ class CreateItemForm extends Component {
             } else {
                 document.getElementById("errorItemCode").innerHTML = "";
             }
+
             if (!this.state.description.trim()) {
                 flag = true
                 document.getElementById("errorDescription").innerHTML = "Cannot be empty";
@@ -207,13 +209,13 @@ class CreateItemForm extends Component {
                                     <input type="number" placeholder="Item Code" name="itemCode" className="form-control" value={this.state.itemCode}
                                         onChange={this.changeItemCodeHandler} required />
                                 </div> : ""}
-                                <span id="errorItemCode"style={{ color: "red" }}></span>
+                                <span className="well span6" id="errorItemCode" style={{ color: "red" }}></span>
                                 <div className="form-group">
                                     <label>Description: </label>
                                     <textarea placeholder="Description" name="description" className="form-control" value={this.state.description}
                                         onChange={this.changeDescriptionHandler} />
                                 </div>
-                                <span id="errorDescription" style={{ color: "red" }}></span>
+                                <span className="well span6" id="errorDescription" style={{ color: "red" }}></span>
                                 <div className="form-group">
                                     <label>Price: </label>
                                     <input type="number" placeholder="Price" name="price" className="form-control" value={this.state.price}
@@ -232,9 +234,7 @@ class CreateItemForm extends Component {
                                         <select name="supplier" onChange={this.handleSuppliers}>
                                             {
                                                 this.state.supplierList.map(supplier =>
-                                                    <optgroup label="Item suppliers">
-                                                        <option value={supplier.supplierCode}>{supplier.name}</option>
-                                                    </optgroup>
+                                                    <option value={supplier.supplierCode}>{supplier.name}</option>
                                                 )
                                             }
                                         </select>
@@ -247,9 +247,7 @@ class CreateItemForm extends Component {
                                         <select name="discount" onChange={this.handleDiscounts}>
                                             {
                                                 this.state.discountList.map(discount =>
-                                                    <optgroup label="Item discount">
-                                                        <option value={discount.discountCode}>{discount.reducedPrice}</option>
-                                                    </optgroup>
+                                                    <option value={discount.discountCode}>{discount.reducedPrice}</option>
                                                 )
                                             }
                                         </select>

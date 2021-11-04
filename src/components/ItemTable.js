@@ -47,17 +47,21 @@ class ItemTable extends Component {
 
     render() {
         return (
-            <div>
+            <div className="container">
                 <h2 className="text-center">Items List</h2>
-                <div className="row">
+                <div className="form-check form-check-inline">
                     <button className="btn btn-primary" onClick={this.addItem}>Add Item</button>
                 </div>
-                <div className="row">
-                    <h5>Show the items</h5>
-                    <input type="radio" value="ACTIVE" selected={this.state.showItem} checked={this.state.showItem === "ACTIVE"} onChange={this.radioButtonHandler} />
-                    <label>Active Item</label>
-                    <input type="radio" value="DISCONTINUED" selected={this.state.showItem} checked={this.state.showItem === "DISCONTINUED"} onChange={this.radioButtonHandler} />
-                    <label>Discontinued Item</label>
+                <div className="form-check form-check-inline">
+                    <h5>Show the items: </h5>
+                </div>
+                <div className="form-check form-check-inline">
+                    <input type="radio" className="form-check-input" id="radioActive" value="ACTIVE" selected={this.state.showItem} checked={this.state.showItem === "ACTIVE"} onChange={this.radioButtonHandler} />
+                    <label className="form-check-label" htmlFor="radioActive">Active Item</label>
+                </div>
+                <div className="form-check form-check-inline">
+                    <input type="radio" className="form-check-input" id="radioDiscontinued" value="DISCONTINUED" selected={this.state.showItem} checked={this.state.showItem === "DISCONTINUED"} onChange={this.radioButtonHandler} />
+                    <label className="form-check-label" htmlFor="radioDiscontinued">Discontinued Item</label>
                 </div>
                 <div className="row">
                     <table className="table table-striped table-bordered">
@@ -78,20 +82,19 @@ class ItemTable extends Component {
                                         <tr key={item.itemCode}>
                                             <td>{item.itemCode}</td>
                                             <td>{item.description}</td>
-                                            <td>{item.price}</td>
+                                            <td>{item.price}€</td>
                                             <td>{item.creationDate}</td>
                                             <td>{item.state}</td>
                                             <td>
-                                                <button onClick={() => this.viewItem(item.itemCode)} className="btn btn-info">Details</button>
-                                                <button onClick={() => this.updateItem(item.itemCode)} className="btn btn-info">Update</button>
+                                                <button onClick={() => this.viewItem(item.itemCode)} className="btn btn-info btn-md">Details</button>
+                                                <button onClick={() => this.updateItem(item.itemCode)} className="btn btn-primary btn-md">Update</button>
                                                 {item.state === 'ACTIVE' ?
-                                                    <button onClick={() => this.discontinuedItem(item.itemCode)} className="btn btn-danger">Discontinued</button>
+                                                    <button onClick={() => this.discontinuedItem(item.itemCode)} className="btn btn-danger btn-md">Discontinued</button>
                                                     : ''
                                                 }
                                             </td>
                                         </tr>
-                                        : ''
-                                )
+                                    : '')
                             }
                         </tbody>
                     </table>

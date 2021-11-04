@@ -44,31 +44,31 @@ class ItemDetails extends Component {
             <div className="card col-md-6 offset-md-3">
                 <h3 className="text-center">Item Details</h3>
                 <div className="card-body">
-                    <ul>
-                        <li>
+                    <ul className="list-group">
+                        <li className="list-group-item">
                             Item Code: {this.state.itemCode}
                         </li>
-                        <li>
+                        <li className="list-group-item">
                             Description: {this.state.description}
                         </li>
-                        <li>
+                        <li className="list-group-item">
                             Price: {this.state.price}€
                         </li>
-                        <li>
+                        <li className="list-group-item">
                             Creation Date: {this.state.creationDate}
                         </li>
-                        <li>
+                        <li className="list-group-item">
                             State: {this.state.state}
                         </li>
                         {this.state.discontinuedReason ?
-                            <li>
+                            <li className="list-group-item">
                                 Discontinued Reason: {this.state.discontinuedReason}
                             </li>
                             : ''}
                         {this.state.suppliers.length > 0 && <SupplierOrDiscountList title="Selected suppliers:" data={this.state.suppliers} />}
                         {this.state.discounts.length > 0 && <SupplierOrDiscountList title="Selected discounts:" data={this.state.discounts} />}
-                        <button className="btn btn-info" onClick={this.cancelItem}>Back</button>
                     </ul>
+                    <button className="btn btn-secondary" onClick={this.cancelItem}>Back</button>
                 </div>
             </div>
         )

@@ -38,25 +38,36 @@ class DiscontinuedItemForm extends Component {
 
     changeReasonHandler = (event) => {
         this.setState({ discontinuedReason: event.target.value });
-
     }
 
     updateItem = (event) => {
         event.preventDefault();
-        let item = {
-            itemCode: this.props.match.params.itemCode,
-            description: this.state.description,
-            price: this.state.price,
-            state: 'DISCONTINUED',
-            suppliers: this.state.suppliers,
-            discounts: this.state.discounts,
-            creationDate: this.state.creationDate,
-            discontinuedReason: this.state.discontinuedReason
-        };
-        console.log('item => ' + JSON.stringify(item));
-        ItemService.updateItem(item, this.state.itemCode).then(res => {
-            this.props.history.push('/items');
-        });
+        let flag = false;
+
+
+        if (this.state.discontinuedReason === null) {
+            flag = true
+            document.getElementById("errorDiscontinued").innerHTML = "Cannot be empty";
+        } else {
+            document.getElementById("errorDiscontinued").innerHTML = "";
+        }
+
+        if (!flag) {
+            let item = {
+                itemCode: this.props.match.params.itemCode,
+                description: this.state.description,
+                price: this.state.price,
+                state: 'DISCONTINUED',
+                suppliers: this.state.suppliers,
+                discounts: this.state.discounts,
+                creationDate: this.state.creationDate,
+                discontinuedReason: this.state.discontinuedReason
+            };
+            console.log('item => ' + JSON.stringify(item));
+            ItemService.updateItem(item, this.state.itemCode).then(res => {
+                this.props.history.push('/items');
+            });
+        }
     }
 
     cancelItem() {
@@ -65,24 +76,23 @@ class DiscontinuedItemForm extends Component {
 
     render() {
         return (
-            <div className="">
-                <div className="">
-                    <div className="">
-                        <h3 className="">Discontinued Item</h3>
-                        <div className="">
-                            <form>
-                                <div className="">
-                                    <label>Specify a reason for the deactivation: </label>
-                                    <textarea placeholder="The item is very old....." name="reason" className="" value={this.state.discontinuedReason}
-                                        onChange={this.changeReasonHandler}/>
-                                </div>
-                                <button className="" onClick={this.cancelItem}>Cancel</button>
-                                <button type="submit" onClick={this.updateItem}>Save</button>
-                            </form>
+            <div className="card col-md-6 offset-md-3">
+                <h3 className="text-center">Discontinued Item</h3>
+                <div className="card-body">
+                    <form>
+                        <div className="form-group">
+                            <label>Specify a reason for the deactivation: </label>
+                            <textarea placeholder="The item is very old....." name="reason" className="form-control" value={this.state.discontinuedReason}
+                                onChange={this.changeReasonHandler} />
                         </div>
-                    </div>
+                        <span className="well span6" id="errorDiscontinued" style={{ color: "red" }}></span>
+                        <div className="col px-2">
+                            <button className="btn btn-danger" onClick={this.cancelItem}>Cancel</button>
+                            <button className="btn btn-success" onClick={this.updateItem}>Save</button>
+                        </div>
+                    </form>
                 </div>
-            </div>
+            </div >
         )
     }
 }
