@@ -82,7 +82,6 @@ class CreateItemForm extends Component {
     createOrUpdateItem = (event) => {
         event.preventDefault();
         let flag = false;
-        console.log(this.state.discontinuedReason)
 
         if (this.state.updateItemCode === 'add') {
 
