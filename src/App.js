@@ -13,16 +13,13 @@ function App() {
     <>
       <Router>
         <Header />
-        <div>
-          <Switch>
-            <Route path="/" exact component={Login} />
-            <Route path="/items" component={ItemTable} />
-            <Route path="/add-item/:itemCode" component={CreateItemForm} />
-            <Route path="/itemDetails/:itemCode" component={ItemDetails} />
-            <Route path="/discontinued-item/:itemCode" component={DiscontinuedItemForm} />
-            {/* <Route path="/update-item/:itemCode" component={UpdateItemForm} /> */}
-          </Switch>
-        </div>
+        <Switch>
+          <Route path="/login" exact component={Login} />
+          <Route path="/items" component={ItemTable} />
+          <Route path="/add-item/:itemCode" component={CreateItemForm} />
+          <Route path="/itemDetails/:itemCode" component={ItemDetails} />
+          <Route path="/discontinued-item/:itemCode" component={DiscontinuedItemForm} />
+        </Switch>
         <Footer />
       </Router>
     </>

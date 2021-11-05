@@ -14,6 +14,7 @@ class ItemDetails extends Component {
             suppliers: [],
             discounts: [],
             creationDate: '',
+            creator: '',
             discontinuedReason: ''
         }
         this.cancelItem = this.cancelItem.bind(this);
@@ -30,8 +31,13 @@ class ItemDetails extends Component {
                 suppliers: item.suppliers,
                 discounts: item.discounts,
                 creationDate: item.creationDate,
+                creator: item.creator.userName,
                 discontinuedReason: item.discontinuedReason
             });
+        }).catch(err => {
+            if (err.response) {
+                this.props.history.push('/login');
+            }
         });
     }
 
@@ -56,6 +62,9 @@ class ItemDetails extends Component {
                         </li>
                         <li className="list-group-item">
                             Creation Date: {this.state.creationDate}
+                        </li>
+                        <li className="list-group-item">
+                            Creator: {this.state.creator}
                         </li>
                         <li className="list-group-item">
                             State: {this.state.state}

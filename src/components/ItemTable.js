@@ -19,6 +19,10 @@ class ItemTable extends Component {
     componentDidMount() {
         ItemService.getItems().then((res) => {
             this.setState({ items: res.data });
+        }).catch(err => {
+            if (err.response) {
+                this.props.history.push('/login');
+            }
         });
     }
 
@@ -43,7 +47,6 @@ class ItemTable extends Component {
             showItem: event.target.value
         })
     }
-
 
     render() {
         return (
@@ -72,6 +75,7 @@ class ItemTable extends Component {
                                 <th>Price</th>
                                 <th>Creation Date</th>
                                 <th>Item State</th>
+                                <th>Creator</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -85,16 +89,20 @@ class ItemTable extends Component {
                                             <td>{item.price}€</td>
                                             <td>{item.creationDate}</td>
                                             <td>{item.state}</td>
+                                            <td>{item.creator.userName}</td>
                                             <td>
                                                 <button onClick={() => this.viewItem(item.itemCode)} className="btn btn-info btn-md">Details</button>
-                                                <button onClick={() => this.updateItem(item.itemCode)} className="btn btn-primary btn-md">Update</button>
+                                                {item.state === 'ACTIVE' ?
+                                                    <button onClick={() => this.updateItem(item.itemCode)} className="btn btn-primary btn-md">Update</button>
+                                                    : ''
+                                                }
                                                 {item.state === 'ACTIVE' ?
                                                     <button onClick={() => this.discontinuedItem(item.itemCode)} className="btn btn-danger btn-md">Discontinued</button>
                                                     : ''
                                                 }
                                             </td>
                                         </tr>
-                                    : '')
+                                        : '')
                             }
                         </tbody>
                     </table>

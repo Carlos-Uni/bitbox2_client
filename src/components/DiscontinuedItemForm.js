@@ -33,6 +33,10 @@ class DiscontinuedItemForm extends Component {
                 creationDate: item.creationDate,
                 discontinuedReason: item.discontinuedReason
             });
+        }).catch(err => {
+            if (err.response) {
+                this.props.history.push('/login');
+            }
         });
     }
 
