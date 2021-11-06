@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const LOGIN_URL = "http://localhost:8080/api/authenticate";
-//const REGISTER_URL = "http://localhost:8080/api/register";
+const REGISTER_URL = "http://localhost:8080/api/register";
 
 
 class LoginService {
@@ -11,6 +11,10 @@ class LoginService {
 
     logout(){
         localStorage.removeItem("user");
+    }
+
+    register(user) {
+        return axios.post(REGISTER_URL, user);
     }
 }
 

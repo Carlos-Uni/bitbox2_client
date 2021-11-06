@@ -1,7 +1,8 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ItemTable from './components/ItemTable';
-import Login from './components/LoginForm';
+import LoginComponent from './components/LoginComponent';
+import RegisterComponent from './components/RegiterComponent';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import CreateItemForm from './components/CreateItemForm';
@@ -14,7 +15,8 @@ function App() {
       <Router>
         <Header />
         <Switch>
-          <Route path="/login" exact component={Login} />
+          <Route path="/login" component={LoginComponent} />
+          <Route path="/register" component={RegisterComponent} />
           <Route path="/items" component={ItemTable} />
           <Route path="/add-item/:itemCode" component={CreateItemForm} />
           <Route path="/itemDetails/:itemCode" component={ItemDetails} />

@@ -7,7 +7,19 @@ class Header extends Component {
         super(props)
 
         this.state = {
+            currentUser: false
+        }
+    }
 
+    componentDidMount() {
+        if (localStorage.getItem("user")) {
+            this.setState({
+                currentUser: true,
+            });
+        } else {
+            this.setState({
+                currentUser: false,
+            });
         }
     }
 
@@ -20,13 +32,36 @@ class Header extends Component {
             <div>
                 <header>
                     <nav className="navbar navbar-expand-md navbar-dark bg-dark">
-                        <div style={{ color: "white" }}>Store Management App</div>
-                        <Link to="/login">
-                            {
-                                localStorage.getItem("user") ? <button onClick={() => this.logout()} className="btn btn-info btn-md float-right">Log out</button>
-                                    : ''
-                            }
-                        </Link>
+                        <div className="container-fluid">
+                            <div className="navbar-brand">Store Management App</div>
+                            {this.state.currentUser ? (
+                                <ul className="navbar-nav mr-auto">
+                                    <li className="nav-item">
+                                        <div className="navbar-brand">
+                                            {JSON.parse(localStorage.getItem("user")).username}
+                                        </div>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a href="/login" className="nav-link" onClick={this.logout}>
+                                            Logout
+                                        </a>
+                                    </li>
+                                </ul>
+                            ) : (
+                                <ul className="navbar-nav mr-auto">
+                                    <li className="nav-item">
+                                        <Link to={"/login"} className="nav-link">
+                                            Login
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link to={"/register"} className="nav-link">
+                                            Sign Up
+                                        </Link>
+                                    </li>
+                                </ul>
+                            )}
+                        </div>
                     </nav>
                 </header>
             </div>

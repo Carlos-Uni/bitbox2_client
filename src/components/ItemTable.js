@@ -17,13 +17,14 @@ class ItemTable extends Component {
     }
 
     componentDidMount() {
-        ItemService.getItems().then((res) => {
-            this.setState({ items: res.data });
-        }).catch(err => {
-            if (err.response) {
-                this.props.history.push('/login');
-            }
-        });
+
+        if (!localStorage.getItem("user")) {
+            this.props.history.push('/login');
+        } else {
+            ItemService.getItems().then((res) => {
+                this.setState({ items: res.data });
+            })
+        }
     }
 
     viewItem(code) {

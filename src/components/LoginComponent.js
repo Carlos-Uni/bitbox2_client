@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import LoginService from "../services/LoginService";
+import LoginOrRegisterForm from "./LoginOrRegisterForm";
 
-class LoginForm extends Component {
+
+class LoginComponent extends Component {
     constructor(props) {
         super(props)
 
@@ -10,12 +12,12 @@ class LoginForm extends Component {
             password: ''
         }
 
-        this.loginHandler = this.loginHandler.bind(this);
+        this.actionHandler = this.actionHandler.bind(this);
         this.changeUsernameHandler = this.changeUsernameHandler.bind(this);
         this.changePasswordHandler = this.changePasswordHandler.bind(this);
     }
 
-    loginHandler = (event) => {
+    actionHandler = (event, path) => {
         event.preventDefault();
         let flag = false;
 
@@ -43,6 +45,7 @@ class LoginForm extends Component {
                 if (res.data.jwttoken) {
                     localStorage.setItem("user", JSON.stringify(res.data));
                     this.props.history.push('/items');
+                    window.location.reload();
                 }
             }).catch(err => {
                 if (err.response) {
@@ -62,33 +65,11 @@ class LoginForm extends Component {
 
     render() {
         return (
-            <div className="container">
-                <div className="row">
-                    <div className="card col-md-6 offset-md-3 offset-md-3">
-                        <h3 className="text-center">User Login</h3>
-                        <div className="card-body">
-                            <form>
-                                <span id="errorLogin" style={{ color: "red" }}></span>
-                                <div className="form-group">
-                                    <label>Username: </label>
-                                    <input placeholder="user123" name="username" className="form-control" value={this.state.username}
-                                        onChange={this.changeUsernameHandler} />
-                                </div>
-                                <span id="errorUsername" style={{ color: "red" }}></span>
-                                <div className="form-group">
-                                    <label>Password: </label>
-                                    <input type="password" name="password" className="form-control" value={this.state.password}
-                                        onChange={this.changePasswordHandler} />
-                                </div>
-                                <span id="errorPassword" style={{ color: "red" }}></span>
-                                <button className="btn btn-success" onClick={this.loginHandler}>Login</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <LoginOrRegisterForm changeUsernameHandler={this.changeUsernameHandler}
+                changePasswordHandler={this.changePasswordHandler} actionHandler={this.actionHandler}
+                username={this.state.username} password={this.state.password} />
         )
     }
 }
 
-export default LoginForm
+export default LoginComponent
